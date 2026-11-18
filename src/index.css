@@ -85,25 +85,7 @@ h1 {
   color: #616e7c;
 }
 
-.filters {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
-}
-
-.filters button {
-  padding: 0.3rem 0.75rem;
-  border: 1px solid #cbd2d9;
-  border-radius: 999px;
-  background: #fff;
-  font: inherit;
-  font-size: 0.85rem;
-  color: #3e4c59;
-  cursor: pointer;
-}
-
-.filters button.active {
-  background: #3e4c59;
-  color: #fff;
-  border-color: #3e4c59;
-}
+/* AI-assisted — see AI-USAGE.md #1 */
+.filter-bar { display: flex; gap: 0.5rem; margin: 1rem 0; }
+.filter-bar button { padding: 0.45rem 0.75rem; border: 1px solid #cbd2d9; border-radius: 6px; background: white; cursor: pointer; font: inherit; }
+.filter-bar button.active { background: #1f2933; color: white; border-color: #1f2933; }

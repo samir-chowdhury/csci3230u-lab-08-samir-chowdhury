@@ -40,27 +40,31 @@ test("deletes a todo", async () => {
   expect(screen.queryByText("Build the to-do list")).toBeNull();
 });
 
-// ----- Lab 08 additions: controlled input + filters -----
-
-test("the form clears after adding (controlled input)", async () => {
+// AI-assisted — see AI-USAGE.md #1
+test("add input is controlled and clears after submitting", async () => {
   render(<App />);
   const input = screen.getByPlaceholderText(/add a todo/i);
-  await userEvent.type(input, "Buy milk");
-  expect(input.value).toBe("Buy milk");
+  await userEvent.type(input, "  Walk the dog  ");
+  expect(input.value).toBe("  Walk the dog  ");
   await userEvent.click(screen.getByRole("button", { name: /^add$/i }));
-  expect(input.value).toBe(""); // reset by clearing state, not touching the DOM
+  expect(screen.getByText("Walk the dog")).toBeTruthy();
+  expect(input.value).toBe("");
 });
 
-test("the Active filter shows only not-done todos", async () => {
+test("active filter shows only incomplete todos", async () => {
   render(<App />);
   await userEvent.click(screen.getByRole("button", { name: /^active$/i }));
-  expect(screen.queryByText("Read the lab README")).toBeNull(); // done -> hidden
-  expect(screen.getByText("Build the to-do list")).toBeTruthy(); // active -> shown
+  expect(screen.queryByText("Read the lab README")).toBeNull();
+  expect(screen.getByText("Build the to-do list")).toBeTruthy();
+  expect(screen.getByText("Add one of your own")).toBeTruthy();
+  expect(screen.getByText(/1 of 3 done/i)).toBeTruthy();
 });
 
-test("the Completed filter shows only done todos", async () => {
+test("completed filter shows completed todos and all restores list", async () => {
   render(<App />);
   await userEvent.click(screen.getByRole("button", { name: /^completed$/i }));
-  expect(screen.getByText("Read the lab README")).toBeTruthy(); // done -> shown
-  expect(screen.queryByText("Build the to-do list")).toBeNull(); // active -> hidden
+  expect(screen.getByText("Read the lab README")).toBeTruthy();
+  expect(screen.queryByText("Build the to-do list")).toBeNull();
+  await userEvent.click(screen.getByRole("button", { name: /^all$/i }));
+  expect(screen.getByText("Build the to-do list")).toBeTruthy();
 });
